@@ -3,6 +3,8 @@
 Core: React + Javascript
 Style: Tailwindcss + Shadcnui
 
+# 🔥4주차 과제: /home의 PostPreview, /signin, /signup 페이지 퍼블리싱🔥
+
 ### Guide
 1. 개발환경 세팅
 ```
