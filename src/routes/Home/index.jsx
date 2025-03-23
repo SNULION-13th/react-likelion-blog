@@ -1,4 +1,5 @@
 import { posts } from "../../data/posts";
+import { SmallPost } from "./components/SmallPost";
 
 import { Header, Input } from "@/shared/components";
 export default function Home() {
@@ -20,7 +21,14 @@ export default function Home() {
         </div>
 
         <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="w-full flex justify-center items-center"
+            >
+              <SmallPost post={post} />
+            </div>
+          ))}
         </div>
       </div>
     </>
