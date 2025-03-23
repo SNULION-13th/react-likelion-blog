@@ -1,16 +1,16 @@
-import { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
-import { Header } from "@/shared/components";
-function App() {
-  const [count, setCount] = useState(0);
+import SignIn from "./routes/SignIn";
+import SignUp from "./routes/SignUp";
 
+function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
