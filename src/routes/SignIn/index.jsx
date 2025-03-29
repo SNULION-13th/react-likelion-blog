@@ -8,6 +8,7 @@ import {
 import logo from "@/assets/logo.png";
 import { Input } from "@/shared/components";
 import { Button } from "@/shared/components";
+import { Link } from "react-router-dom";
 export default function SignIn() {
   return( 
     <>
@@ -23,7 +24,11 @@ export default function SignIn() {
       </CardContent>
       <CardFooter className="flex justify-between gap-4">
         <Button>로그인</Button>
-        <Button>회원가입</Button>
+        <Link to="/signup" className="w-full">
+          <Button >
+            회원가입
+          </Button>
+        </Link>
 
       </CardFooter>
     </Card>
