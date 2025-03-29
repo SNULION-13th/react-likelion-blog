@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 export default function SignUp() {
   return( 
     <>
-    <div className="flex justify-center items-center py-14 w-screen h-screen">
+    <div className="min-h-screen  items-start py-12 w-full flex justify-center items-center py-14 w-screen h-screen">
     <Card className="flex flex-col items-center justify-center text-center gap-4 max-w-md">
       <CardHeader>
         <img src={logo} alt="logo" className="w-[40%] rounded-full mx-auto"  />
