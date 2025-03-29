@@ -15,7 +15,7 @@ export default function SignUp() {
     <Card className="flex flex-col items-center justify-center text-center gap-4 max-w-md">
       <CardHeader>
         <img src={logo} alt="logo" className="w-[40%] rounded-full mx-auto"  />
-        <p className="text-lg font-bold">로그인</p>
+        <p className="text-lg font-bold">회원가입</p>
       </CardHeader>
       <CardContent className="w-full  flex flex-col gap-1">
         <p className="font-bold items-start text-left ml-1 ">아이디</p>
