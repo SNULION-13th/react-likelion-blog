@@ -62,3 +62,10 @@ export const posts = [
     created_at: "2024-02-04T07:42:50.658501Z",
   },
 ];
+
+
+const allTags = posts.flatMap(post => post.tags);
+
+export const Tags=Array.from(
+  new Map(allTags.map(tag => [tag.id, tag])).values()
+);
