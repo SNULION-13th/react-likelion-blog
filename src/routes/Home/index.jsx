@@ -58,7 +58,7 @@ export default function Home() {
 
         <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px] gap-x-6">
           {/* TODO: 검색 결과 포스트 만들기 */}
-          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0">
+          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0 border-gray-300">
             <CardHeader className="">
               <CardTitle className="text-left text-2xl">#1 Post</CardTitle>
               <p className="text-sm text-left font-bold text-gray-400">지호</p>
@@ -80,7 +80,7 @@ export default function Home() {
               <p>❤️2</p>
             </CardFooter>
           </Card>
-          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0">
+          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0 border-gray-300">
             <CardHeader className="">
               <CardTitle className="text-left text-2xl">#2 Post</CardTitle>
               <p className="text-sm text-left font-bold text-gray-400">수빈</p>
@@ -99,7 +99,7 @@ export default function Home() {
               <p>❤️1</p>
             </CardFooter>
           </Card>
-          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0">
+          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0 border-gray-300">
             <CardHeader className="">
               <CardTitle className="text-left text-2xl">#3 Post</CardTitle>
               <p className="text-sm text-left font-bold text-gray-400">록희</p>
@@ -118,7 +118,7 @@ export default function Home() {
               <p></p>
             </CardFooter>
           </Card>
-          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0">
+          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0 border-gray-300">
             <CardHeader className="">
               <CardTitle className="text-left text-2xl">#4 Post</CardTitle>
               <p className="text-sm text-left font-bold text-gray-400">지원</p>
@@ -137,7 +137,7 @@ export default function Home() {
               <p>❤️3</p>
             </CardFooter>
           </Card>
-          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0">
+          <Card className="w-full max-w-400 p-0 shadow-lg pt-0 pb-4 px-0 border-gray-300">
             <CardHeader className="">
               <CardTitle className="text-left text-2xl">#5 Post</CardTitle>
               <p className="text-sm text-left font-bold text-gray-400">예빈</p>
