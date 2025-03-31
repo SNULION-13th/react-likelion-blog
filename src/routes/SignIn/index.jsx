@@ -7,7 +7,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 
 export default function SignIn() {
@@ -26,9 +26,9 @@ export default function SignIn() {
           <Input type="password" placeholder="비밀번호를 입력하세요" />
         </CardContent>
 
-        <CardFooter className="flex justify-between gap-2">
-          <Button className="w-full !font-bold text-black">로그인</Button>
-          <Button className="w-full !font-bold text-black">회원가입</Button>
+        <CardFooter className="flex justify-center gap-2">
+          <Button>로그인</Button>
+          <Button>회원가입</Button>
         </CardFooter>
       </Card>
     </div>

@@ -6,7 +6,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 
 export default function SignUp() {
@@ -62,9 +62,9 @@ export default function SignUp() {
           </div>
         </CardContent>
 
-        <CardFooter>
-          {/*!font-bold를 이용하여 강제 적용*/}
-          <Button className="w-full !font-bold text-black">회원가입</Button>
+        <CardFooter className="flex justify-center">
+          {/*className 설정하지 않기!*/}
+          <Button>회원가입</Button>
         </CardFooter>
       </Card>
     </div>
