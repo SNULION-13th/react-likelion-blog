@@ -31,7 +31,7 @@ export default function Home() {
 
                 <div className="flex flex-wrap gap-1 ml-6 mt-14">
                   {post.tags.map((tag) => (
-                    <span key={tag.id} className="bg-orange-400 text-white text-xs px-2 py-0.5 rounded-full">
+                    <span key={tag.id} className="bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full">
                       #{tag.content}
                     </span>
                   ))}
