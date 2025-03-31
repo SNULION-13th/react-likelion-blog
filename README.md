@@ -1,34 +1,12 @@
-# ✨ 멋쟁이사자처럼 13기 React 세미나 과제 제출용 리포
+# React + Vite
 
-Core: React + Javascript
-Style: Tailwindcss + Shadcnui
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# 🔥4주차 과제: /home의 PostPreview, /signin, /signup 페이지 퍼블리싱🔥
+Currently, two official plugins are available:
 
-### Guide
-1. 개발환경 세팅
-```
-git clone https://github.com/SNULION-13th/react-likelion-blog.git
-cd react-likelion-blog
-npm install 
-```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-3. 프론트 개발서버 실행
-```
-npm run dev
-```
+## Expanding the ESLint configuration
 
-//4주차 현재는 백 서버는 없습니다!
-3. 백 개발서버 실행
-```
-npm run server
-```
-4. 프론트/백 동시 실행
-```
-npm run dev:all
-```
-5. (Optional) 샤드시엔(Shadcn) 컴포넌트 추가
-```
-npm run component {추가하고 싶은 컴포넌트 이름}
-```
-참고: https://ui.shadcn.com/docs/components/
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
