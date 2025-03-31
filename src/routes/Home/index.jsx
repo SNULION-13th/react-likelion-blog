@@ -22,23 +22,23 @@ export default function Home() {
         <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
           {/* TODO: 검색 결과 포스트 만들기 */}
           {posts.map((post) => (
-            <div key={post.id} className="border rounded-xl p-4 shadow-md flex flex-col justify-between min-h-[180px]">
+            <div key={post.id} className="border rounded-xl p-4 shadow-md flex flex-col justify-between min-h-[240px]">
               <div>
-                <h2 className="font-bold text-lg mb-1">{post.title}</h2>
-                <p>className="text-sm text-gray-600 mb-2
+                <h2 className="font-bold text-lg mb-1 ml-4 text-left">{post.title}</h2>
+                <p className="text-sm text-gray-600 mb-2 ml-4 mt-4 text-left">
                   {post.author.username}
                 </p>
 
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1 ml-6 mt-14">
                   {post.tags.map((tag) => (
-                    <span key={tag.id} className="bg-amber-400 text-white text-xs px-2 py-0.5 rounded-full">
+                    <span key={tag.id} className="bg-orange-400 text-white text-xs px-2 py-0.5 rounded-full">
                       #{tag.content}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="lex items-center mt-4 text-sm text-red-500">
+              <div className="flex items-center mb-4 text-sm text-red-500 text-left">
                 ❤️ {post.like_users.length}
               </div>
             </div>
