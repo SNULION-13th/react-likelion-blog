@@ -26,31 +26,31 @@ export default function Home() {
             />
           </div>
           <div className="flex justify-center items-center mt-6.5 gap-2 ">
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #멋사
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #치즈
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #냠냠
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #멋쟁이김세안
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #회장님
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #연예인
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #일잘러
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #큐트
             </button>
-            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+            <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
               #쏘스윗
             </button>
           </div>
@@ -64,14 +64,14 @@ export default function Home() {
               <p className="text-sm text-left font-bold text-gray-400">지호</p>
             </CardHeader>
             <CardContent className="mx-1.5 pt-6">
-              <div className="flex gap-3">
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+              <div className="flex gap-2">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #멋사
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #치즈
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #냠냠
                 </button>
               </div>
@@ -86,11 +86,11 @@ export default function Home() {
               <p className="text-sm text-left font-bold text-gray-400">수빈</p>
             </CardHeader>
             <CardContent className="mx-1.5 pt-6">
-              <div className="flex gap-3">
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+              <div className="flex gap-2">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #멋사
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #멋쟁이김세안
                 </button>
               </div>
@@ -105,11 +105,11 @@ export default function Home() {
               <p className="text-sm text-left font-bold text-gray-400">록희</p>
             </CardHeader>
             <CardContent className="mx-1.5 pt-6">
-              <div className="flex gap-3">
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+              <div className="flex gap-2">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #회장님
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #연예인
                 </button>
               </div>
@@ -124,11 +124,11 @@ export default function Home() {
               <p className="text-sm text-left font-bold text-gray-400">지원</p>
             </CardHeader>
             <CardContent className="mx-1.5 pt-6">
-              <div className="flex gap-3">
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+              <div className="flex gap-2">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #일잘러
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #큐트
                 </button>
               </div>
@@ -143,11 +143,11 @@ export default function Home() {
               <p className="text-sm text-left font-bold text-gray-400">예빈</p>
             </CardHeader>
             <CardContent className="mx-1.5 pt-6">
-              <div className="flex gap-3">
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+              <div className="flex gap-2">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #멋사
                 </button>
-                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2.5 rounded-md shadow-sm">
+                <button className="!bg-yellow-500 !text-[12px] text-white font-bold !py-0.5 !px-2 rounded-md shadow-sm">
                   #쏘스윗
                 </button>
               </div>
