@@ -14,7 +14,7 @@ export const Header = () => {
       <Link to="/">
         <div className="flex flex-row items-center gap-5">
           <img src={lion} alt="lion" className="h-12 w-12 rounded-full" />
-          <div className="text-xl font-semibold">SNULION BLOG</div>
+          <div className="text-xl">SNULION BLOG</div>
         </div>
       </Link>
       {isMobile ? null : (
