@@ -19,7 +19,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
+        <div className="mx-auto grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
           {posts.map((post) => (
             <PostCard
               key={post.id}
