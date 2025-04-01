@@ -4,11 +4,24 @@ import logo from "../../assets/logo.png"; // Adjusted path for the logo
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [school, setSchool] = useState("");
+  const [major, setMajor] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Add your sign-up logic here (e.g., API call)
-    console.log("Signing up with:", { username, password });
+    console.log("Signing up with:", {
+      username,
+      password,
+      password2,
+      name,
+      email,
+      school,
+      major,
+    });
   };
 
   return (
@@ -59,92 +72,92 @@ export default function SignUp() {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="password"
+              htmlFor="password2"
               className="block text-gray-700 font-semibold mb-1"
             >
               비밀번호 확인
             </label>
             <input
               type="password"
-              id="password"
-              placeholder="비밀번호를 입력하세요"
+              id="password2"
+              placeholder="비밀번호를 다시 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
               required
             />
-          </div>{" "}
+          </div>
           <div className="mb-4">
             <label
-              htmlFor="password"
+              htmlFor="name"
               className="block text-gray-700 font-semibold mb-1"
             >
               이름
             </label>
             <input
-              type="password"
-              id="password"
+              type="text"
+              id="name"
               placeholder="이름을 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
-          </div>{" "}
+          </div>
           <div className="mb-4">
             <label
-              htmlFor="password"
+              htmlFor="email"
               className="block text-gray-700 font-semibold mb-1"
             >
               이메일
             </label>
             <input
-              type="password"
-              id="password"
+              type="email"
+              id="email"
               placeholder="이메일을 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
             <label
-              htmlFor="password"
+              htmlFor="school"
               className="block text-gray-700 font-semibold mb-1"
             >
               학교
             </label>
             <input
-              type="password"
-              id="password"
+              type="text"
+              id="school"
               placeholder="학교를 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={school}
+              onChange={(e) => setSchool(e.target.value)}
               required
             />
-          </div>{" "}
+          </div>
           <div className="mb-4">
             <label
-              htmlFor="password"
+              htmlFor="major"
               className="block text-gray-700 font-semibold mb-1"
             >
               전공
             </label>
             <input
-              type="password"
-              id="password"
+              type="text"
+              id="major"
               placeholder="전공을 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={major}
+              onChange={(e) => setMajor(e.target.value)}
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-amber-500 text-red py-2 rounded hover:bg-amber-600 transition duration-200"
+            className="w-full bg-amber-500 text-black-500 font-normal py-2 rounded hover:font-bold transition duration-200"
           >
             회원가입
           </button>
