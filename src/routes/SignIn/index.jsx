@@ -1,11 +1,5 @@
 //TODO: 로그인 페이지 구현
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
 
@@ -23,14 +17,14 @@ export default function SignIn() {
           </div>
           <div>
             <h2 className="text-xl font-semibold mb-5 ">로그인</h2>
-            <div className="w-93">
+            <div className="flex flex-col gap-1 w-93">
               <Input
-                className="mb-1 w-full px-4 py-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500 selection:bg-amber-300 selection:text-black"
+                className="w-full py-2 border border-gray-300 rounded focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-amber-500 selection:bg-amber-300 selection:text-black"
                 type="text"
                 placeholder="아이디를 입력하세요"
               />
               <Input
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500 selection:bg-amber-300 selection:text-black"
+                className="w-full py-2 border border-gray-300 rounded focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-amber-500 selection:bg-amber-300 selection:text-black"
                 type="text"
                 placeholder="비밀번호를 입력하세요"
               />
