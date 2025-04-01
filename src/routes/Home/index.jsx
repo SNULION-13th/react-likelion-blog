@@ -1,5 +1,12 @@
 import { posts } from "../../data/posts";
-
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Header, Input } from "@/shared/components";
 export default function Home() {
   return (
@@ -20,7 +27,36 @@ export default function Home() {
         </div>
 
         <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
+          {posts.map((post) => (
+            <Card key={post.id} className="m-3">
+              <CardHeader className="text-left">
+                <CardTitle className="text-2xl font-bold">
+                  {post.title}
+                </CardTitle>
+                <CardDescription className="text-sm font-normal text-gray-500">
+                  {post.author.username}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag.id}
+                      className="bg-orange-400 text-white px-3 py-1 rounded-full text-sm"
+                    >
+                      {tag.content}
+                    </span>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter>
+                <div className="flex items-center">
+                  <span className="text-red-500">❤️</span>
+                  <span className="ml-1">{post.like_users.length}</span>
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
       </div>
     </>
