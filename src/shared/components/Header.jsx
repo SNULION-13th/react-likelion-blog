@@ -13,12 +13,12 @@ export const Header = () => {
     >
       <Link to="/">
         <div className="flex flex-row items-center gap-5">
-          <img src={lion} alt="lion" className="max-h-16 rounded-full" />
-          <div className="text-xl">SNULION BLOG</div>
+          <img src={lion} alt="lion" className="h-12 w-12 rounded-full" />
+          <div className="text-xl font-semibold">SNULION BLOG</div>
         </div>
       </Link>
       {isMobile ? null : (
-        <div className="flex flex-row gap-5">
+        <div className="flex gap-4 ml-auto">
           <Link to="/signin">
             <Button>sign in</Button>
           </Link>
