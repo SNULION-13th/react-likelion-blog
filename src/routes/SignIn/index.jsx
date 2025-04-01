@@ -27,8 +27,8 @@ export default function SignIn() {
           <Input type="password" placeholder="비밀번호를 입력하세요" />
         </CardContent>
         <CardFooter className="flex justify-between gap-4">
-          <Button className="w-full bg-[#8b8b8b] hover:!bg-amber-500 hover:text-white text-black">로그인</Button>
-          <Button className="w-full bg-[#8b8b8b] hover:!bg-amber-500 hover:text-white text-black">회원가입</Button>
+          <Button className="w-full hover:!bg-amber-500 hover:text-white text-black">로그인</Button>
+          <Button className="w-full hover:!bg-amber-500 hover:text-white text-black">회원가입</Button>
         </CardFooter>
       </Card>
     </div>

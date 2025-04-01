@@ -24,22 +24,22 @@ export default function Home() {
           {posts.map((post) => (
             <div key={post.id} className="border rounded-xl p-4 shadow-md flex flex-col justify-between min-h-[240px]">
               <div>
-                <h2 className="font-bold text-lg mb-1 ml-4 text-left">{post.title}</h2>
+                <h2 className="font-bold text-2xl mb-1 ml-4 mt-2 text-left">{post.title}</h2>
                 <p className="text-sm text-gray-600 mb-2 ml-4 mt-4 text-left">
                   {post.author.username}
                 </p>
 
                 <div className="flex flex-wrap gap-1 ml-6 mt-14">
                   {post.tags.map((tag) => (
-                    <span key={tag.id} className="bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    <div key={tag.id} className="bg-amber-500 text-white text-xs px-2 py-1 mb-10 rounded-lg">
                       #{tag.content}
-                    </span>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center mb-4 text-sm text-red-500 text-left">
-                ❤️ {post.like_users.length}
+              <div className="flex items-center mb-4 ml-4 text-sm text-black font-bold text-left">
+                ❤️{post.like_users.length}
               </div>
             </div>
           ))}
