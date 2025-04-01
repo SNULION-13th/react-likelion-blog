@@ -14,7 +14,7 @@ export default function SignUp() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
-      <Card className="w-full max-w-sm p-4 shadow-lg">
+      <Card className="w-[400px] p-6 shadow-lg">
         <CardHeader className="flex items-center justify-center">
           <img src={logo} alt="logo" className="w-30 h-30" />
           <CardTitle className="text-center text-xl mt-4">회원가입</CardTitle>
