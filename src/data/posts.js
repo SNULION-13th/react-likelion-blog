@@ -3,7 +3,7 @@ export const posts = [
   {
     id: 1,
     title: "#1 Post",
-    content: "첫번째 게시물입니다",
+    // content: "첫번째 게시물입니다",
     author: { id: 1, username: "주현" },
     tags: [
       { id: 1, content: "멋사" },
@@ -16,7 +16,7 @@ export const posts = [
   {
     id: 2,
     title: "#2 post",
-    content: "두번째 게시물입니다",
+    // content: "두번째 게시물입니다",
     author: { id: 2, username: "세안" },
     tags: [
       { id: 1, content: "멋사" },
@@ -28,7 +28,7 @@ export const posts = [
   {
     id: 3,
     title: "#3 post",
-    content: "세번째 게시물입니다",
+    // content: "세번째 게시물입니다",
     author: { id: 3, username: "수혁" },
     tags: [
       { id: 5, content: "회장님" },
@@ -40,7 +40,7 @@ export const posts = [
   {
     id: 4,
     title: "#4 post",
-    content: "네번째 게시물입니다",
+    // content: "네번째 게시물입니다",
     author: { id: 4, username: "유진" },
     tags: [
       { id: 7, content: "일잘러" },
@@ -52,7 +52,7 @@ export const posts = [
   {
     id: 5,
     title: "#5 post",
-    content: "다섯번째 게시물입니다",
+    // content: "다섯번째 게시물입니다",
     author: { id: 5, username: "어진" },
     tags: [
       { id: 1, content: "멋사" },
