@@ -1,7 +1,10 @@
 import { posts } from "../../data/posts";
-
+import { PostCard } from "@/components/ui/PostCard";
 import { Header, Input } from "@/shared/components";
 export default function Home() {
+  const allTags = Array.from(
+    new Set(posts.flatMap((post) => post.tags.map((tag) => tag.content)))
+  );
   return (
     <>
       <Header />
@@ -17,10 +20,29 @@ export default function Home() {
               placeholder="태그를 검색하세요"
             />
           </div>
+          <div className="flex flex-wrap justify-center gap-2 mt-6 px-6">
+            {allTags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="bg-amber-400 text-white text-sm px-3 py-1 rounded-md"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
+        <div className="mx-auto grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
+          {posts.map((post) => (
+            <PostCard
+              key={post.id}
+              title={post.title}
+              content={post.content}
+              author={post.author.username}
+              tags={post.tags}
+              likes={post.like_users.length}
+            />
+          ))}
         </div>
       </div>
     </>
