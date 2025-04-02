@@ -1,7 +1,15 @@
 import { posts } from "../../data/posts";
-
+import CardPost from "@/components/CardPost";
+import { Button } from "@/components/ui/button";
 import { Header, Input } from "@/shared/components";
+
 export default function Home() {
+  const allTags = Array.from(
+    new Map(
+      posts.flatMap((post) => post.tags).map((tag) => [tag.id, tag])
+    ).values()
+  );
+
   return (
     <>
       <Header />
@@ -17,10 +25,24 @@ export default function Home() {
               placeholder="태그를 검색하세요"
             />
           </div>
+          <div className="flex flex-wrap justify-center">
+            {allTags.map((tag) => (
+              <Button
+                key={tag.id}
+                variant="outline"
+                size="sm"
+                className="text-white !text-sm !bg-amber-500 !px-3 !py-0 mx-1 mt-4 !rounded-xl"
+              >
+                #{tag.content}
+              </Button>
+            ))}
+          </div>
         </div>
 
         <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
+          {posts.map((post) => (
+            <CardPost key={post.id} post={post} />
+          ))}
         </div>
       </div>
     </>
