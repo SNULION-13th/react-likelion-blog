@@ -1,6 +1,7 @@
 import { posts } from "../../data/posts";
+// posts 형식: array ([{},{}...])
 
-import { Header, Input } from "@/shared/components";
+import { Header, Input, PostCard } from "@/shared/components";
 export default function Home() {
   return (
     <>
@@ -18,10 +19,12 @@ export default function Home() {
             />
           </div>
         </div>
+      </div>
 
-        <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
-        </div>
+      <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
+        {posts.map((post) => {
+          return <PostCard key={post.id} post={post} />;
+        })}
       </div>
     </>
   );
