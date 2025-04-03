@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 
 export default function SignUp() {
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex justify-center items-center w-full min-h-screen">
       <Card className="w-100">
         <CardHeader className="items-center w-full h-auto">
           <img
