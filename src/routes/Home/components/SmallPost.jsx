@@ -19,6 +19,9 @@ export const SmallPost = ({ post }) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="text-start">
+          <span>{post.content}</span>
+        </div>
         <div className="flex flex-wrap mt-5">
           {post.tags.map((tag) => tag && <TagBadge key={tag.id} tag={tag} />)}
         </div>

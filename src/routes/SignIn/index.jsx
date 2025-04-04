@@ -1,3 +1,4 @@
+import { signIn } from "./api";
 import {
   Card,
   CardContent,
@@ -6,12 +7,24 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Input, Button } from "@/shared/components";
-import { SignInDialog } from "./components";
 import logo from "@/assets/logo.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 export default function Signin() {
+  const navigate = useNavigate();
+
   const handleSignin = async (e) => {
     e.preventDefault();
+    const { username, password } = e.target;
+
+    try {
+      const user = await signIn(username.value, password.value);
+      console.log(user);
+      //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
@@ -35,13 +48,9 @@ export default function Signin() {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex justify-center gap-9">
-            <SignInDialog
-              triggerButton={<Button type="submit">로그인</Button>}
-            />
-            <Link to="/signup">
-              <Button type="button">회원가입</Button>
-            </Link>
+          <CardFooter className="flex justify-center gap-[4px]">
+            <Button type="submit">로그인</Button>
+            <Button type="button">회원가입</Button>
           </CardFooter>
         </Card>
       </form>
