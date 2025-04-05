@@ -3,18 +3,23 @@ import { Input, TagBadge, PostDialog } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 //HINT: State
-const posts = [];
+
 const searchTags = [];
 const storedTags = [];
 
 export default function Home() {
+
+  const [posts, setPosts]= useState([])
+
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
     const posts = await getPosts();
     console.log("post fetch response", posts);
+    setPosts(posts)
   };
 
   const fetchTags = async () => {
@@ -37,6 +42,9 @@ export default function Home() {
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
+  useEffect(()=>{
+    fetchPosts()
+  },[])
 
   return (
     <div className="pb-20 pt-14">
