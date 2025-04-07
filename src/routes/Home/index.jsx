@@ -45,6 +45,7 @@ export default function Home() {
     // Fetch the updated list of tags
     const updatedTags = await getTags();
     setTags(updatedTags); // Update the tags state
+    setSortedTags(updatedTags); // Update the sorted tags state
   };
 
   const fetchPosts = async () => {
