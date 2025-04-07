@@ -9,9 +9,12 @@ import {
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { loginContext } from "@/shared/context/loginContext";
 
 export default function Signin() {
   const navigate = useNavigate();
+  const { isLogin, setIsLogin, setUser } = useContext(loginContext);
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -20,6 +23,10 @@ export default function Signin() {
     try {
       const user = await signIn(username.value, password.value);
       console.log(user);
+      if (user) {
+        setIsLogin(true); // set isLogin to true
+        setUser(user); // set user information in context
+      }
       //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
       navigate("/");
     } catch (error) {
