@@ -4,7 +4,9 @@ import Home from "./routes/Home";
 import { Header } from "@/shared/components";
 import Signin from "./routes/SignIn";
 import Signup from "./routes/SignUp";
+import { createContext, useContext } from 'react';
 
+//const UserContext = create
 // import PostPage from "./routes/Post";
 function AppContent() {
   const location = useLocation();
