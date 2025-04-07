@@ -106,7 +106,7 @@ export const PostDialog = ({ title, description, onClose, onSubmit }) => {
                 key={index}
                 className="px-2 py-1 bg-amber-300 rounded text-sm"
               >
-                {tag}
+                #{tag}
                 <Button
                   type="button"
                   className="ml-2 text-black !bg-amber-400 hover:!text-black"
