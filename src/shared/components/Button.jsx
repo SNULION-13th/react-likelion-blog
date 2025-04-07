@@ -1,7 +1,7 @@
 import { Button as ButtonComponent } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const Button = (props) => {
+export const Button = ({ className, ...props }) => {
   return (
     <ButtonComponent
       className={cn(
@@ -9,8 +9,6 @@ export const Button = (props) => {
         props.className
       )}
       {...props}
-    >
-      {props.children}
-    </ButtonComponent>
+    />
   );
 };
