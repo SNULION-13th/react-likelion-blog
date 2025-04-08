@@ -1,25 +1,46 @@
+//routes/Home/index.jsx
+
+import React, { useState, useEffect } from "react";
 import { SmallPost } from "./components/SmallPost";
-import { Input, TagBadge, PostDialog } from "@/shared/components";
+import { Input, TagBadge, PostDialog } from "../../shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
 
-//HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
-
 export default function Home() {
   const navigate = useNavigate();
 
+  // posts와 tags들을 상태(state)로 선언
+  const [posts, setPosts] = useState([]);
+  const [searchTags, setSearchTags] = useState([]);
+  const [storedTags, setStoredTags] = useState([]); // 필요에 따라 사용
+
+  // 컴포넌트 마운트 시에 데이터 fetch
+  useEffect(() => {
+    fetchPosts();
+    fetchTags();
+  }, []);
+
+  // 게시글 데이터를 받아오고 state 업데이트
   const fetchPosts = async () => {
-    const posts = await getPosts();
-    console.log("post fetch response", posts);
+    try {
+      const postsData = await getPosts();
+      console.log("post fetch response", postsData);
+      setPosts(postsData);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
   };
 
+  // 태그 데이터를 받아오고 state 업데이트
   const fetchTags = async () => {
-    const tags = await getTags();
-    console.log("tag fetch response", tags);
+    try {
+      const tags = await getTags();
+      console.log("tag fetch response", tags);
+      setSearchTags(tags);
+    } catch (error) {
+      console.error("Error fetching tags:", error);
+    }
   };
 
   const handleSearchTagInputChange = (e) => {
@@ -28,15 +49,19 @@ export default function Home() {
   };
 
   const handleCreatePost = async (post, author) => {
-    const createResponse = await createPost({
-      ...post,
-      author,
-    });
-    const newPost = await getPostById(createResponse.postId);
-    console.log("new post", newPost);
+    try {
+      const createResponse = await createPost({
+        ...post,
+        author,
+      });
+      const newPost = await getPostById(createResponse.postId);
+      console.log("new post", newPost);
+      // 새로운 게시글을 기존 posts에 추가하는 방법 예시:
+      setPosts((prevPosts) => [...prevPosts, newPost]);
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
-
-  // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
 
   return (
     <div className="pb-20 pt-14">
@@ -45,12 +70,16 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
-          {searchTags.map((tag) => {
-            return <TagBadge key={tag.id} tag={tag} />;
-          })}
+          {searchTags.map((tag) => (
+            <TagBadge key={tag.id} tag={tag} />
+          ))}
         </div>
       </div>
 

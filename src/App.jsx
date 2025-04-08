@@ -1,16 +1,15 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"; // Use react-router-dom for BrowserRouter
 import Home from "./routes/Home";
 import { Header } from "@/shared/components";
 import Signin from "./routes/SignIn";
 import Signup from "./routes/SignUp";
+import { UserProvider } from "./shared/context/userContext.jsx";
 
-// import PostPage from "./routes/Post";
 function AppContent() {
   const location = useLocation();
 
   const HIDE_HEADER_PATHS = ["/signin", "/signup"];
-
   const shouldShowHeader = !HIDE_HEADER_PATHS.includes(location.pathname);
 
   return (
@@ -29,7 +28,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <UserProvider>
+        <AppContent />
+      </UserProvider>
     </BrowserRouter>
   );
 }

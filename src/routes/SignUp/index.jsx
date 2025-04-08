@@ -1,3 +1,5 @@
+//routes/SignUp/index.jsx
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input, Label, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";

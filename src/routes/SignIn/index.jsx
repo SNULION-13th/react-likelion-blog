@@ -1,3 +1,5 @@
+// routes/SignIn/index.jsx
+import React, { useContext } from "react";
 import { signIn } from "./api";
 import {
   Card,
@@ -9,28 +11,32 @@ import {
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { useNavigate } from "react-router";
+import { UserContext } from "../../shared/context/"; // Import the User Context
 
 export default function Signin() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Destructure setUser
 
   const handleSignin = async (e) => {
     e.preventDefault();
     const { username, password } = e.target;
-
     try {
       const user = await signIn(username.value, password.value);
-      console.log(user);
-      //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
+      console.log("Logged in user", user);
+      // Update the global user state
+      setUser(user);
+      // Navigate to the home page after login
       navigate("/");
     } catch (error) {
-      console.error(error);
+      console.error("Signin error:", error);
     }
   };
+
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
       <form onSubmit={handleSignin}>
         <Card className="w-[400px] aspect-square">
-          <img src={logo} className="h-[40%] mx-auto" />
+          <img src={logo} alt="logo" className="h-[40%] mx-auto" />
           <CardHeader className="flex items-center !pt-0">
             <CardTitle className="text-2xl font-bold">로그인</CardTitle>
           </CardHeader>
