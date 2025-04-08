@@ -3,6 +3,7 @@ import { useMediaQuery } from "@/shared/hooks";
 import { Button } from "@/shared/components";
 import { Link } from "react-router-dom";
 
+//TODO: 로그인 했을 시에는 로그아웃 버튼만 나타나게 하기
 export const Header = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
   // 로그인 여부 상태, 우선 false로 초기화
