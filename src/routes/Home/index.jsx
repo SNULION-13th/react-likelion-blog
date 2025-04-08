@@ -8,16 +8,16 @@ import { useEffect } from "react";
 import { useUser } from "@/shared/context/userContext";
 import { Button } from "@/shared/components";
 
-//HINT: State
-//const posts = [];
-const searchTags = [];
-const storedTags = [];
-
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const { user, setUser } = useUser();
   const [open, setOpen] = useState(false);
+  const [searchTags, setSearchTags] = useState([]);
+  const [storedTags, setStoredTags] = useState([]);
+  const [searchInput, setSearchInput] = useState([]);
   const navigate = useNavigate();
+  console.log("storedTags 구조 확인:", storedTags);
+  console.log("첫 번째 태그 객체:", storedTags[0]);
 
   const fetchPosts = async () => {
     const posts = await getPosts();
@@ -28,11 +28,16 @@ export default function Home() {
   const fetchTags = async () => {
     const tags = await getTags();
     console.log("tag fetch response", tags);
+    setSearchTags(tags);
+    setStoredTags(tags);
   };
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
     console.log("search tag input change", value);
+    setSearchInput(value);
+    const filtered = storedTags.filter((tag) => tag.content.includes(value));
+    setSearchTags(filtered);
   };
 
   const handleCreatePost = async (post, author) => {
@@ -49,6 +54,7 @@ export default function Home() {
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
   useEffect(() => {
     fetchPosts();
+    fetchTags();
   }, []);
 
   return (
@@ -58,7 +64,12 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            value={searchInput}
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
           {searchTags.map((tag) => {
