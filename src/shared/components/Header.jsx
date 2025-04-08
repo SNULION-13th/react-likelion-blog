@@ -2,11 +2,36 @@ import lion from "@/assets/lion.jpeg";
 import { useMediaQuery } from "@/shared/hooks";
 import { Button } from "@/shared/components";
 import { Link } from "react-router-dom";
+import { useLogIn } from "@/contexts/LogInContext";
 
 //TODO: 로그인 했을 시에는 로그아웃 버튼만 나타나게 하기
 export const Header = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
   // 로그인 여부 상태, 우선 false로 초기화
+  const { isLogIn, username, logOut } = useLogIn();
+
+  let headerButtons = null;
+  if (!isMobile) {
+    if (isLogIn) {
+      headerButtons = (
+        <div className="flex flex-row gap-5">
+          <Button className="!bg-amber-500 text-white">{username}</Button>
+          <Button onClick={logOut}>log out</Button>
+        </div>
+      );
+    } else {
+      headerButtons = (
+        <div className="flex flex-row gap-5">
+          <Link to="/signin">
+            <Button>sign in</Button>
+          </Link>
+          <Link to="/signup">
+            <Button>sign up</Button>
+          </Link>
+        </div>
+      );
+    }
+  }
 
   return (
     <div
@@ -18,16 +43,7 @@ export const Header = () => {
           <div className="text-xl">SNULION BLOG</div>
         </div>
       </Link>
-      {isMobile ? null : (
-        <div className="flex flex-row gap-5">
-          <Link to="/signin">
-            <Button>sign in</Button>
-          </Link>
-          <Link to="/signup">
-            <Button>sign up</Button>
-          </Link>
-        </div>
-      )}
+      {headerButtons}
     </div>
   );
 };

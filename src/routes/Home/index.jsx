@@ -3,28 +3,29 @@ import { Input, TagBadge, PostDialog } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
 
 //HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
-
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [searchTags, setSearchTags] = useState([]);
+
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
     const posts = await getPosts();
-    console.log("post fetch response", posts);
+    setPosts(posts);
   };
 
   const fetchTags = async () => {
     const tags = await getTags();
-    console.log("tag fetch response", tags);
+    setTags(tags);
   };
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
-    console.log("search tag input change", value);
+    setSearchTags(tags.filter((tag) => tag.content.includes(value)));
   };
 
   const handleCreatePost = async (post, author) => {
@@ -37,6 +38,16 @@ export default function Home() {
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
+  useEffect(() => {
+    fetchPosts();
+    fetchTags();
+    setSearchTags(tags);
+  }, []);
+
+  useEffect(() => {
+    setSearchTags(tags);
+    console.log("tags", tags);
+  }, [tags]);
 
   return (
     <div className="pb-20 pt-14">
@@ -45,7 +56,11 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
           {searchTags.map((tag) => {
@@ -72,6 +87,12 @@ export default function Home() {
       </div>
       {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
       {/* TODO: PostDialog 컴포넌트 구현 */}
+      <PostDialog
+        tags={tags}
+        setTags={setTags}
+        posts={posts}
+        setPosts={setPosts}
+      />
     </div>
   );
 }
