@@ -2,7 +2,7 @@ import lion from "@/assets/lion.jpeg";
 import { useMediaQuery } from "@/shared/hooks";
 import { Button } from "@/shared/components";
 import { Link } from "react-router-dom";
-import { useUser } from "@/shared/context/userContext"; // 추가
+import { useUser } from "@/shared/context/userContext";
 
 //TODO: 로그인 했을 시에는 로그아웃 버튼만 나타나게 하기
 export const Header = () => {

@@ -5,6 +5,8 @@ import { createPost } from "./api";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useUser } from "@/shared/context/userContext";
+import { Button } from "@/shared/components";
 
 //HINT: State
 //const posts = [];
@@ -13,6 +15,8 @@ const storedTags = [];
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const { user, setUser } = useUser();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
@@ -38,6 +42,8 @@ export default function Home() {
     });
     const newPost = await getPostById(createResponse.postId);
     console.log("new post", newPost);
+    fetchPosts(); // 작성 후 목록 갱신
+    setOpen(false); // 작성 후 모달 닫기
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
@@ -77,8 +83,21 @@ export default function Home() {
           </div>
         ))}
       </div>
-      {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
-      {/* TODO: PostDialog 컴포넌트 구현 */}
+
+      {/* 로그인한 유저만 작성 버튼 */}
+      {user && (
+        <div className="flex justify-center m-20">
+          <Button onClick={() => setOpen(true)}>작성</Button>
+        </div>
+      )}
+
+      {/* PostDialog 모달 */}
+      {open && (
+        <PostDialog
+          onClose={() => setOpen(false)}
+          onSubmit={handleCreatePost}
+        />
+      )}
     </div>
   );
 }
