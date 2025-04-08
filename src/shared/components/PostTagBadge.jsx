@@ -1,15 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-export const TagBadge = ({ tag, onClick, rightSlot, className }) => {
+export const PostTagBadge = ({ text, onClick, rightSlot, className }) => {
   return (
     <Badge
-      key={tag.id}
+      key={text}
       className={cn("m-1 bg-amber-500 font-bold", className)}
       onClick={() => onClick && onClick()}
     >
-      #{tag.content}
+      #{text}
       {rightSlot && rightSlot}
     </Badge>
   );
-  ㅏㄷ;
 };

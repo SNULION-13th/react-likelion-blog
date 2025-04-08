@@ -9,23 +9,28 @@ import {
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { useLogIn } from "@/contexts";
 
 export default function Signin() {
   const navigate = useNavigate();
+  const { logIn } = useLogIn();
 
   const handleSignin = async (e) => {
     e.preventDefault();
+
     const { username, password } = e.target;
 
     try {
       const user = await signIn(username.value, password.value);
-      console.log(user);
+      logIn(username.value);
       //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
       navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
       <form onSubmit={handleSignin}>
@@ -50,7 +55,9 @@ export default function Signin() {
           </CardContent>
           <CardFooter className="flex justify-center gap-[4px]">
             <Button type="submit">로그인</Button>
-            <Button type="button">회원가입</Button>
+            <Link to="/signup">
+              <Button type="button">회원가입</Button>
+            </Link>
           </CardFooter>
         </Card>
       </form>
