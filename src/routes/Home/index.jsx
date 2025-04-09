@@ -1,28 +1,114 @@
-import { posts } from "../../data/posts";
+import { SmallPost } from "./components/SmallPost";
+import { Input, TagBadge, PostDialog } from "@/shared/components";
+import { getPosts, getTags, getPostById } from "@/shared/api";
+import { createPost } from "./api";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useUser } from "@/shared/context/userContext";
+import { Button } from "@/shared/components";
 
-import { Header, Input } from "@/shared/components";
 export default function Home() {
-  return (
-    <>
-      <Header />
-      <div className="flex flex-col py-14">
-        <div className="flex flex-col justify-center items-center mb-5">
-          <div className="w-full mb-16 flex justify-center">
-            <h1 className="uppercase text-6xl text-black">my blog</h1>
-          </div>
-          <div className="w-[90vw] max-w-md flex justify-center">
-            <Input
-              className="focus-visible:ring-amber-500 focus-visible:ring-2 focus-visible:border-transparent selection:bg-amber-300 selection:text-black"
-              type="text"
-              placeholder="태그를 검색하세요"
-            />
-          </div>
-        </div>
+  const [posts, setPosts] = useState([]);
+  const { user, setUser } = useUser();
+  const [open, setOpen] = useState(false);
+  const [searchTags, setSearchTags] = useState([]);
+  const [storedTags, setStoredTags] = useState([]);
+  const [searchInput, setSearchInput] = useState([]);
+  const navigate = useNavigate();
+  //console.log("storedTags 구조 확인:", storedTags);
+  //console.log("첫 번째 태그 객체:", storedTags[0]);
 
-        <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
-          {/* TODO: 검색 결과 포스트 만들기 */}
+  const fetchPosts = async () => {
+    const posts = await getPosts();
+    console.log("post fetch response", posts);
+    setPosts(posts);
+  };
+
+  const fetchTags = async () => {
+    const tags = await getTags();
+    console.log("tag fetch response", tags);
+    setSearchTags(tags);
+    setStoredTags(tags);
+  };
+
+  const handleSearchTagInputChange = (e) => {
+    const { value } = e.target;
+    console.log("search tag input change", value);
+    setSearchInput(value);
+    const filtered = storedTags.filter((tag) => tag.content.includes(value));
+    setSearchTags(filtered);
+  };
+
+  const handleCreatePost = async (post, author) => {
+    const createResponse = await createPost({
+      ...post,
+      author,
+    });
+    const newPost = await getPostById(createResponse.postId);
+    console.log("new post", newPost);
+    await fetchPosts(); // 작성 후 목록 갱신
+    await fetchTags(); // 작성 후 태그 목록 갱신
+    setOpen(false); // 작성 후 모달 닫기
+  };
+
+  useEffect(() => {
+    fetchPosts();
+    fetchTags();
+  }, []);
+
+  return (
+    <div className="pb-20 pt-14">
+      <div className="flex flex-col justify-center items-center mb-5">
+        <div className="w-full mb-16 flex justify-center">
+          <h1 className="uppercase text-6xl text-black">my blog</h1>
+        </div>
+        <div className="w-[90vw] max-w-md flex justify-center">
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            value={searchInput}
+            onChange={handleSearchTagInputChange}
+          />
+        </div>
+        <div className="flex mt-5 justify-center flex-wrap">
+          {searchTags.map((tag) => {
+            return <TagBadge key={tag.id} tag={tag} />;
+          })}
         </div>
       </div>
-    </>
+
+      <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="w-full flex justify-center items-center"
+          >
+            <SmallPost
+              post={post}
+              onClick={() => {
+                console.log(post.id);
+                navigate(`/post/${post.id}`);
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* 로그인한 유저만 작성 버튼 */}
+      {user && (
+        <div className="flex justify-center m-20">
+          <Button onClick={() => setOpen(true)}>작성</Button>
+        </div>
+      )}
+
+      {/* PostDialog 모달 */}
+      {open && (
+        <PostDialog
+          onClose={() => setOpen(false)}
+          onSubmit={(post) => handleCreatePost(post, user.username)}
+        />
+      )}
+    </div>
   );
 }
