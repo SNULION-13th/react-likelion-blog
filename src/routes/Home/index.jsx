@@ -16,8 +16,8 @@ export default function Home() {
   const [storedTags, setStoredTags] = useState([]);
   const [searchInput, setSearchInput] = useState([]);
   const navigate = useNavigate();
-  console.log("storedTags 구조 확인:", storedTags);
-  console.log("첫 번째 태그 객체:", storedTags[0]);
+  //console.log("storedTags 구조 확인:", storedTags);
+  //console.log("첫 번째 태그 객체:", storedTags[0]);
 
   const fetchPosts = async () => {
     const posts = await getPosts();
@@ -47,11 +47,11 @@ export default function Home() {
     });
     const newPost = await getPostById(createResponse.postId);
     console.log("new post", newPost);
-    fetchPosts(); // 작성 후 목록 갱신
+    await fetchPosts(); // 작성 후 목록 갱신
+    await fetchTags(); // 작성 후 태그 목록 갱신
     setOpen(false); // 작성 후 모달 닫기
   };
 
-  // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
   useEffect(() => {
     fetchPosts();
     fetchTags();
@@ -106,7 +106,7 @@ export default function Home() {
       {open && (
         <PostDialog
           onClose={() => setOpen(false)}
-          onSubmit={handleCreatePost}
+          onSubmit={(post) => handleCreatePost(post, user.username)}
         />
       )}
     </div>

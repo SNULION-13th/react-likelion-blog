@@ -1,8 +1,7 @@
 // src/features/post/PostDialog.jsx
-
 import { useState } from "react";
 
-export const PostDialog = ({ onClose }) => {
+export const PostDialog = ({ onClose, onSubmit }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tagInput, setTagInput] = useState("");
@@ -19,7 +18,7 @@ export const PostDialog = ({ onClose }) => {
   const handleSubmit = () => {
     const postData = { title, content, tags };
     console.log("작성된 게시글:", postData);
-    onClose(); // 등록 후 모달 닫기
+    onSubmit(postData); // 부모에게 postData 전달
   };
 
   return (
