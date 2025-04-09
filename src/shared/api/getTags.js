@@ -3,10 +3,11 @@ import { instance } from "@/shared/api";
 export const getTags = async () => {
   try {
     const response = await instance.get("/tags");
-    return response.data;
+    const tags = response.data;
+    return Array.isArray(tags) ? tags : [];
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("getTags 실패", error);
+    return [];
   }
 };
 

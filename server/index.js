@@ -6,10 +6,15 @@ import { users } from "./data/users.js";
 import { comments } from "./data/comments.js";
 import { findTagByContent } from "./utils/index.js";
 
+const corsOptions = {
+  origin: "http://localhost:5173", // 프론트 주소
+  credentials: true,
+};
+
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // GET 게시물 전체 조회
@@ -108,13 +113,14 @@ app.delete("/api/posts/:id", (req, res) => {
 // GET 태그 조회
 app.get("/api/tags", (req, res) => {
   const { postId } = req.query;
-  if (postId === null || postId === undefined) res.json(tags);
-  else {
+  if (postId === null || postId === undefined) {
+    res.json({tags});
+   } else {
     const post = posts.find((p) => p.id === parseInt(postId));
     if (!post)
       return res.status(404).json({ message: "게시물을 찾을 수 없습니다." });
     const responseTags = tags.filter((t) => post.tags.includes(t.id));
-    res.json(responseTags);
+    res.json({ tags: responseTags });
   }
 });
 

@@ -1,10 +1,10 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./routes/Home";
 import { Header } from "@/shared/components";
 import Signin from "./routes/SignIn";
 import Signup from "./routes/SignUp";
-
+import { UserProvider } from "./shared/context";
 // import PostPage from "./routes/Post";
 function AppContent() {
   const location = useLocation();
@@ -14,7 +14,7 @@ function AppContent() {
   const shouldShowHeader = !HIDE_HEADER_PATHS.includes(location.pathname);
 
   return (
-    <>
+    <UserProvider>
       {shouldShowHeader && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -22,7 +22,7 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         {/* <Route path="/post/:postId" element={<PostPage />} /> */}
       </Routes>
-    </>
+    </UserProvider>
   );
 }
 

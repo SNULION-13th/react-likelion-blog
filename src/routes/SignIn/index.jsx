@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/card";
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@/shared/context/userContext";
 
 export default function Signin() {
   const navigate = useNavigate();
+  const { setUser } = useUser(); 
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -20,12 +22,14 @@ export default function Signin() {
     try {
       const user = await signIn(username.value, password.value);
       console.log(user);
+      setUser(user);
       //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
       navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
+  
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
       <form onSubmit={handleSignin}>

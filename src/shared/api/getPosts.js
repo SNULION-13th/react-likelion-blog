@@ -16,13 +16,15 @@ import { instance } from "@/shared/api";
  *  created_at: string;
  * }>}
  */
+
 export const getPosts = async () => {
   try {
     const response = await instance.get("/posts");
-    return response.data;
+    const posts = response.data?.posts || response.data; // 혹시 배열일 수도 있으니 둘 다 체크
+    return Array.isArray(posts) ? posts : [];
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("getPosts 실패", error);
+    return [];
   }
 };
 
