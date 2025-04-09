@@ -44,16 +44,17 @@ export const PostDialog = ({ onPostSubmit }) => {
   const handleSubmit = () => {
     if (!postTitle || !postContent) return alert("내용을 입력해주세요!");
 
-    // const postTags = tagInputs.map((tag, index) => ({
-    //   id: index + 10,
-    //   content: tag,
-    // }));
-
     const newPost = {
       title: postTitle,
       content: postContent,
       tags: tagInputs,
     };
+
+    //작성후 다이얼로그 state 초기화
+    setPostTitle("");
+    setPostContent("");
+    setTagInput("");
+    setTagInputs([]);
 
     onPostSubmit(newPost, user.username);
   };
