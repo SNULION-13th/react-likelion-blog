@@ -1,19 +1,16 @@
-//TODO: 게시글 작성 모달 컴포넌트 구현
-import {useState, useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
-  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog.jsx";
-import {Input, Button, Textarea, Label, TagBadge} from "@/shared/components";
+import { Input, Button, Textarea, Label, TagBadge } from "@/shared/components";
 import { UserContext } from "@/shared/context";
+import { XIcon } from "lucide-react";
 
 export const PostDialog = ({
   triggerButton,
@@ -29,31 +26,48 @@ export const PostDialog = ({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (initialData) {
+    if (open && initialData) {
       setTitle(initialData.title);
       setContent(initialData.content);
-      setTags(initialData.tags);
+      setTags(initialData.tags || []);
+      setTagInput("");
+    } else if (!open) {
+      if (!initialData) resetForm();
     }
-  }
-  , [initialData]);
+  }, [initialData, open]);
+
+  const resetForm = () => {
+    if (!initialData) {
+      setTitle("");
+      setContent("");
+      setTags([]);
+      setTagInput("");
+    } else {
+      setTitle(initialData.title);
+      setContent(initialData.content);
+      setTags(initialData.tags || []);
+      setTagInput("");
+    }
+  };
 
   const handleTagInputChange = (e) => {
     const { value } = e.target;
     setTagInput(value);
-  }
+  };
 
   const handleTagInputKeyDown = (e) => {
     if (e.key === "Enter" && tagInput.trim() !== "") {
       e.preventDefault();
-      if (!tags.includes(tagInput)) {
-        setTags((prevTags) => [...prevTags, tagInput]);
-        setTagInput("");
+      const newTag = tagInput.trim();
+      if (!tags.some((t) => t.toLowerCase() === newTag.toLowerCase())) {
+        setTags((prevTags) => [...prevTags, newTag]);
       }
+      setTagInput("");
     }
   };
 
-  const handleTagDelete = (tag) => {
-    setTags((prevTags) => prevTags.filter((t) => t !== tag));
+  const handleTagDelete = (tagToDelete) => {
+    setTags((prevTags) => prevTags.filter((t) => t !== tagToDelete));
   };
 
   const handleSubmit = async (e) => {
@@ -67,35 +81,57 @@ export const PostDialog = ({
       title,
       content,
       tags,
-    }
+    };
 
     const success = await onSubmitSuccess(postData);
     if (success) {
-      setTitle("");
-      setContent("");
-      setTags([]);
-      setTagInput("");
       setOpen(false);
+      if (!initialData) {
+        resetForm();
+      }
     }
+  };
+
+  const handleOpenChange = (isOpen) => {
+    if (!isOpen) {
+      resetForm();
+    }
+    setOpen(isOpen);
   };
 
   if (!isLoggedIn) {
     return null;
   }
 
+  const tagSuggestions = availableTags
+    .filter(
+      (at) =>
+        !tags.some((t) => t.toLowerCase() === at.toLowerCase()) &&
+        at.toLowerCase().includes(tagInput.toLowerCase()) &&
+        tagInput.trim() !== ""
+    )
+    .map((tag) => <option key={tag} value={tag} />);
+
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild onClick={() => setOpen(true)}>
         {triggerButton}
       </DialogTrigger>
       <DialogContent
         className="sm:max-w-[600px]"
         aria-describedby="post-dialog-description"
+        showCloseButton={false}
       >
         <DialogHeader>
-          <DialogTitle>{initialData ? "게시글 수정" : "게시글 작성"}</DialogTitle>
+          <DialogTitle>
+            {initialData ? "게시글 수정" : "게시글 작성"}
+          </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+        <form
+          id="post-form"
+          onSubmit={handleSubmit}
+          className="grid gap-4 py-4"
+        >
           <div className="grid gap-2">
             <Label htmlFor="title">제목</Label>
             <Input
@@ -113,7 +149,7 @@ export const PostDialog = ({
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="내용을 입력하세요"
-              rows={8} // 여러 줄 입력 가능하도록
+              rows={8}
               required
             />
           </div>
@@ -123,39 +159,29 @@ export const PostDialog = ({
               {tags.map((tag, index) => (
                 <TagBadge
                   key={index}
-                  tag={{ id: index, content: tag }} // 임시 ID 사용
+                  tag={{ id: index, content: tag }}
                   rightSlot={
                     <button
                       type="button"
                       onClick={() => handleTagDelete(tag)}
-                      className="ml-1 text-muted-foreground hover:text-foreground"
+                      className="ml-1 p-0.5 appearance-none border-none !bg-transparent text-white hover:!bg-white/20 focus:!bg-white/20 focus:outline-none focus:ring-0 flex items-center justify-center rounded-full"
                       aria-label={`Remove ${tag} tag`}
                     >
+                      <XIcon size={14} strokeWidth={3} />
                     </button>
                   }
                 />
               ))}
               <Input
                 id="tags"
-                className="flex-1 border-none shadow-none focus-visible:ring-0 h-auto p-0 m-0" 
+                className="flex-1 border-none shadow-none focus-visible:ring-0 h-auto p-0 m-0"
                 value={tagInput}
                 onChange={handleTagInputChange}
                 onKeyDown={handleTagInputKeyDown}
-                placeholder={tags.length === 0 ? "태그 입력..." : ""}
-                list="tag-suggestions" // 자동 완성을 위한 datalist 연결
+                placeholder={tags.length === 0 ? "태그 입력 후 Enter..." : ""}
+                list="tag-suggestions"
               />
-              {/* 태그 자동 완성 제안 (datalist) */}
-              <datalist id="tag-suggestions">
-                {availableTags
-                  .filter(
-                    (at) =>
-                      !tags.includes(at) && // 이미 추가된 태그 제외
-                      at.toLowerCase().includes(tagInput.toLowerCase()) // 입력값 포함
-                  )
-                  .map((tag) => (
-                    <option key={tag} value={tag} />
-                  ))}
-              </datalist>
+              <datalist id="tag-suggestions">{tagSuggestions}</datalist>
             </div>
           </div>
         </form>
@@ -165,7 +191,7 @@ export const PostDialog = ({
               취소
             </Button>
           </DialogClose>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" form="post-form">
             {initialData ? "수정 완료" : "작성 완료"}
           </Button>
         </DialogFooter>

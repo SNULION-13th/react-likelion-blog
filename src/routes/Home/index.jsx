@@ -17,18 +17,20 @@ export default function Home() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const fetchedPosts = await getPosts(); // getPosts 직접 호출 및 await
-        const fetchedTags = await getTags();   // getTags 직접 호출 및 await
-  
-        // 데이터를 받은 후 정렬 및 상태 업데이트
-        setPosts(fetchedPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+        const fetchedPosts = await getPosts();
+        const fetchedTags = await getTags();
+
+        setPosts(
+          fetchedPosts.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          )
+        );
         setAllTags(fetchedTags);
-  
+
         console.log("Fetched posts:", fetchedPosts);
         console.log("Fetched tags:", fetchedTags);
       } catch (error) {
         console.error("Failed to fetch initial data:", error);
-        // 에러 처리 (예: 사용자에게 알림 표시)
       }
     };
     loadData();
@@ -53,7 +55,7 @@ export default function Home() {
   const handleCreatePost = async (post, author) => {
     const createResponse = await createPost({
       ...post,
-      author,
+      author: user.username,
     });
     const newPost = await getPostById(createResponse.postId);
     setPosts((prevPosts) => [newPost, ...prevPosts]);
@@ -67,7 +69,6 @@ export default function Home() {
     : allTags;
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
-
   return (
     <div className="pb-20 pt-14">
       <div className="flex flex-col justify-center items-center mb-5">
@@ -75,12 +76,12 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-        <Input
-          type="text"
-          placeholder="태그를 검색하세요"
-          value={tagSearchInput} // 입력값 상태 반영
-          onChange={handleSearchTagInputChange} // onChange 핸들러 연결
-        />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            value={tagSearchInput}
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
           {filteredTags.map((tag) => {
@@ -111,7 +112,7 @@ export default function Home() {
         <div className="fixed bottom-10 right-10">
           <PostDialog
             triggerButton={<Button>등록</Button>}
-            onSubmit={handleCreatePost}
+            onSubmitSuccess={handleCreatePost}
             availableTags={allTags.map((tag) => tag.content)}
           />
         </div>
