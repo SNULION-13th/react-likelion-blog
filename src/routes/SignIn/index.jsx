@@ -9,9 +9,11 @@ import {
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { useNavigate } from "react-router";
+import { useAuth } from "@/shared/context/userContext";
 
 export default function Signin() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // ContextAPI에서 로그인 함수 가져오기
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -21,6 +23,9 @@ export default function Signin() {
       const user = await signIn(username.value, password.value);
       console.log(user);
       //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
+
+      login(user); // ContextAPI의 로그인 함수 호출
+
       navigate("/");
     } catch (error) {
       console.error(error);
