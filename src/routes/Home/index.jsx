@@ -1,16 +1,38 @@
+import { useState, useEffect, useContext } from "react";
 import { SmallPost } from "./components/SmallPost";
-import { Input, TagBadge, PostDialog } from "@/shared/components";
+import { Input, TagBadge, PostDialog, Button } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
-
-//HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
+import { UserContext } from "@/shared/context";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user, isLoggedIn } = useContext(UserContext);
+
+  const [posts, setPosts] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+  const [tagSearchInput, setTagSearchInput] = useState("");
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const fetchedPosts = await getPosts(); // getPosts 직접 호출 및 await
+        const fetchedTags = await getTags();   // getTags 직접 호출 및 await
+  
+        // 데이터를 받은 후 정렬 및 상태 업데이트
+        setPosts(fetchedPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+        setAllTags(fetchedTags);
+  
+        console.log("Fetched posts:", fetchedPosts);
+        console.log("Fetched tags:", fetchedTags);
+      } catch (error) {
+        console.error("Failed to fetch initial data:", error);
+        // 에러 처리 (예: 사용자에게 알림 표시)
+      }
+    };
+    loadData();
+  }, []); // 최초 마운트 시 한 번만 실행
 
   const fetchPosts = async () => {
     const posts = await getPosts();
@@ -24,6 +46,7 @@ export default function Home() {
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
+    setTagSearchInput(value);
     console.log("search tag input change", value);
   };
 
@@ -33,8 +56,15 @@ export default function Home() {
       author,
     });
     const newPost = await getPostById(createResponse.postId);
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
     console.log("new post", newPost);
   };
+
+  const filteredTags = tagSearchInput
+    ? allTags.filter((tag) =>
+        tag.content.toLowerCase().includes(tagSearchInput.toLowerCase())
+      )
+    : allTags;
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
 
@@ -45,10 +75,15 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+        <Input
+          type="text"
+          placeholder="태그를 검색하세요"
+          value={tagSearchInput} // 입력값 상태 반영
+          onChange={handleSearchTagInputChange} // onChange 핸들러 연결
+        />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
-          {searchTags.map((tag) => {
+          {filteredTags.map((tag) => {
             return <TagBadge key={tag.id} tag={tag} />;
           })}
         </div>
@@ -72,6 +107,15 @@ export default function Home() {
       </div>
       {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
       {/* TODO: PostDialog 컴포넌트 구현 */}
+      {isLoggedIn && (
+        <div className="fixed bottom-10 right-10">
+          <PostDialog
+            triggerButton={<Button>등록</Button>}
+            onSubmit={handleCreatePost}
+            availableTags={allTags.map((tag) => tag.content)}
+          />
+        </div>
+      )}
     </div>
   );
 }
