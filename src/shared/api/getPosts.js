@@ -21,7 +21,7 @@ export const getPosts = async () => {
     const response = await instance.get("/posts");
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error + "getPosts error");
     throw error;
   }
 };
