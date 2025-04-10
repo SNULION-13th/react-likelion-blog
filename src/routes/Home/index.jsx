@@ -4,7 +4,9 @@ import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-
+import { useContext } from "react";
+import { UserContext } from "@/shared/context";
+import { Button } from "@/shared/components";
 //HINT: State
 
 const searchTags = [];
@@ -12,7 +14,10 @@ const storedTags = [];
 
 export default function Home() {
 
-  const [posts, setPosts]= useState([])
+  const [posts, setPosts]= useState([]);
+  const [tags, setTags]= useState([]);
+  const {user} = useContext(UserContext);
+  const [isPosting, setIsPosting]=useState(false);
 
   const navigate = useNavigate();
 
@@ -25,6 +30,7 @@ export default function Home() {
   const fetchTags = async () => {
     const tags = await getTags();
     console.log("tag fetch response", tags);
+    setTags(tags)
   };
 
   const handleSearchTagInputChange = (e) => {
@@ -44,6 +50,7 @@ export default function Home() {
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
   useEffect(()=>{
     fetchPosts()
+    fetchTags()
   },[])
 
   return (
@@ -79,7 +86,16 @@ export default function Home() {
         ))}
       </div>
       {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
+      {user && (
+        <Button 
+          type="button" 
+          className="mt-3 text-sm" 
+          onClick={()=>setIsPosting(ture)}>
+          작성
+        </Button>
+      )}
       {/* TODO: PostDialog 컴포넌트 구현 */}
+
     </div>
   );
 }

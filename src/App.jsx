@@ -4,9 +4,8 @@ import Home from "./routes/Home";
 import { Header } from "@/shared/components";
 import Signin from "./routes/SignIn";
 import Signup from "./routes/SignUp";
-import { createContext, useContext } from 'react';
+import { UserProvider } from "./shared/context/userContext";
 
-//const UserContext = create
 // import PostPage from "./routes/Post";
 function AppContent() {
   const location = useLocation();
@@ -14,25 +13,28 @@ function AppContent() {
   const HIDE_HEADER_PATHS = ["/signin", "/signup"];
 
   const shouldShowHeader = !HIDE_HEADER_PATHS.includes(location.pathname);
-
+  
   return (
     <>
-      {shouldShowHeader && <Header />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/post/:postId" element={<PostPage />} /> */}
-      </Routes>
+        {shouldShowHeader && <Header />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/post/:postId" element={<PostPage />} /> */}
+        </Routes>
+
     </>
   );
 }
 
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
       <AppContent />
     </BrowserRouter>
+    </UserProvider>
   );
 }
 
