@@ -9,9 +9,14 @@ import {
 import { Input, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { useNavigate } from "react-router";
+import { SignInContext } from "@/App"; // SignInContext를 가져온다.
+import { useContext } from "react";
 
 export default function Signin() {
   const navigate = useNavigate();
+
+  const { sign, setSign } = useContext(SignInContext); // 전역에서 SignInContext를 가져와서 sign state에 할당.
+  // 무조건 이 앞에서만 불러와야지 할 수 있대.
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -21,6 +26,11 @@ export default function Signin() {
       const user = await signIn(username.value, password.value);
       console.log(user);
       //TODO: 로그인 성공 시, ContextAPI를 이용해서 전역에서 유저 정보 관리하기
+      // 이미 로그인 로직은 만들어져 있고, 이게 되었으면 login이 되었다고 state 바꾸면 됨.
+
+      setSign("SignIn"); // SignIn으로 바꿔줌. 이러면 이제 전역에서 이 상태를 관리 가능.
+      // 이제 SingIn으로 바뀌었으므로, 홈 화면에서 이를 인식하여 LogOut 버튼만 떠야함.
+
       navigate("/");
     } catch (error) {
       console.error(error);
