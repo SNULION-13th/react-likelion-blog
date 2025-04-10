@@ -15,7 +15,6 @@ export const PostDialog = ({ onSubmit, onClose }) => {
     setTitle("");
     setContent("");
     setTags([]);
-    onCreate?.();
   }
   return(
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
@@ -44,7 +43,8 @@ export const PostDialog = ({ onSubmit, onClose }) => {
         <TagInputBox />
       </CardContent>
       <CardFooter className="flex justify-center gap-[4px]">
-        <Button type="submit">등록</Button>
+        <Button type="submit" onClick={handleSubmit}>등록</Button>
+        <Button  onClick={onClose}>취소</Button>
       </CardFooter>
 
     </Card>

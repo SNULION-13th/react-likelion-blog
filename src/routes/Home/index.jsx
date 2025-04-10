@@ -41,10 +41,13 @@ export default function Home() {
   const handleCreatePost = async (post, author) => {
     const createResponse = await createPost({
       ...post,
-      author,
+      author: user.username,
     });
     const newPost = await getPostById(createResponse.postId);
     console.log("new post", newPost);
+    setPosts((prev) => [...prev, newPost]);
+    setIsPosting(false);
+    
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
@@ -96,7 +99,10 @@ export default function Home() {
       )}
       {/* TODO: PostDialog 컴포넌트 구현 */}
       {isPosting && (
-        <PostDialog></PostDialog>
+          <PostDialog
+          onSubmit={handleCreatePost}
+          onClose={() => setIsPosting(false)}
+        />
       )}
 
 
