@@ -14,8 +14,6 @@ import { Input, Button, TagBadge } from "@/shared/components";
 import { useState } from "react";
 import { useUserContext } from "@/shared/context";
 
-//sever로 보내는 것을 이 안에다가 넣으면 됨 submit
-//submit에 연결할 함수를 만ㄷ르어서
 export const PostDialog = ({ onSubmitPost }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -38,7 +36,6 @@ export const PostDialog = ({ onSubmitPost }) => {
   };
 
   const handleSubmit = async () => {
-    //console.log(tags);
     const post = {
       title,
       content,
