@@ -2,6 +2,7 @@
 import {Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle} from "@/components/ui/card";
 import { Button,Input,Textarea,TagInputBox} from "@/shared/components";
 import { useState } from "react";
+
 export const PostDialog = ({ onSubmit, onClose }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -17,7 +18,8 @@ export const PostDialog = ({ onSubmit, onClose }) => {
     onCreate?.();
   }
   return(
-    <Card className="items-start">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+    <Card className="items-start " >
       <CardHeader className="flex items-start mt-10 !pt-0">
         <CardTitle className="text-l font-bold">게시글 작성</CardTitle>
         <p className="text-s">게시글을 자유롭게 작성해보세요!</p>
@@ -42,10 +44,11 @@ export const PostDialog = ({ onSubmit, onClose }) => {
         <TagInputBox />
       </CardContent>
       <CardFooter className="flex justify-center gap-[4px]">
-        <Button type="submit"  >등록</Button>
+        <Button type="submit">등록</Button>
       </CardFooter>
 
     </Card>
+    </div>
   )
 };
 
