@@ -3,28 +3,44 @@ import { Input, TagBadge, PostDialog } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useUser } from "@/shared/context";
 
 //HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
 
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [searchTags, setSearchTags] = useState([]); // 검색 시 렌더링되는 태그
+  const [storedTags, setStoredTags] = useState([]); // 현재까지 입력받은 모든 태그
   const navigate = useNavigate();
+  const { user, toggleUser } = useUser();
 
   const fetchPosts = async () => {
     const posts = await getPosts();
+    setPosts(posts);
     console.log("post fetch response", posts);
   };
 
   const fetchTags = async () => {
     const tags = await getTags();
+    setSearchTags(tags);
+    setStoredTags(tags);
     console.log("tag fetch response", tags);
   };
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
     console.log("search tag input change", value);
+    if (value.trim()) {
+      console.log("searchTags:", searchTags);
+      const filteredTags = storedTags.filter((tag) => {
+        console.log(tag.content);
+        return tag.content.startsWith(value);
+      });
+      setSearchTags(filteredTags);
+    } else {
+      setSearchTags(storedTags);
+    }
   };
 
   const handleCreatePost = async (post, author) => {
@@ -34,9 +50,24 @@ export default function Home() {
     });
     const newPost = await getPostById(createResponse.postId);
     console.log("new post", newPost);
+    setPosts([...posts, newPost]); // 새 포스트 렌더링
+    const newTags = [
+      // 새로운 태그만 검색창 아래에 추가해서 렌더링
+      ...storedTags,
+      ...newPost.tags.filter((tag) => !searchTags.some((t) => t.id === tag.id)),
+    ];
+    console.log("newTags:", newTags);
+    setStoredTags(newTags);
+    setSearchTags(newTags);
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  useEffect(() => {
+    fetchTags();
+  }, []);
 
   return (
     <div className="pb-20 pt-14">
@@ -45,7 +76,11 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
           {searchTags.map((tag) => {
@@ -71,7 +106,18 @@ export default function Home() {
         ))}
       </div>
       {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
-      {/* TODO: PostDialog 컴포넌트 구현 */}
+
+      {user ? (
+        <div className="pt-14">
+          <PostDialog
+            triggerName={"작성"}
+            onSubmitPost={handleCreatePost}
+            userName={user.username}
+          ></PostDialog>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
