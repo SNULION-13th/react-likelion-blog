@@ -3,40 +3,66 @@ import { Input, TagBadge, PostDialog } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
-
-//HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
+import { useState, useEffect } from "react";
+import { useUserContext } from "@/shared/context";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useUserContext();
+
+  const [posts, setPosts] = useState([]);
+  const [searchTags, setSearchTags] = useState([]);
+  const [storedTags, setStoredTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
 
   const fetchPosts = async () => {
     const posts = await getPosts();
     console.log("post fetch response", posts);
+    setPosts(posts);
   };
 
   const fetchTags = async () => {
     const tags = await getTags();
     console.log("tag fetch response", tags);
+    setSearchTags(tags);
+    setStoredTags(tags);
   };
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
-    console.log("search tag input change", value);
+    console.log(value);
+    setTagInput(value);
+
+    const filterdTag = value
+      ? storedTags.filter((tag) => tag.content.toLowerCase().includes(value))
+      : storedTags;
+
+    setSearchTags(filterdTag);
   };
 
-  const handleCreatePost = async (post, author) => {
-    const createResponse = await createPost({
-      ...post,
-      author,
-    });
-    const newPost = await getPostById(createResponse.postId);
-    console.log("new post", newPost);
+  const handleCreatePost = async (post, userId) => {
+    try {
+      console.log(post.content);
+      const response = await createPost({
+        title: post.title,
+        author: userId,
+        content: post.content,
+        tags: post.tags,
+      });
+
+      const newPost = await getPostById(response.postId);
+      setPosts((prev) => [...prev, newPost]);
+      fetchTags();
+    } catch (err) {
+      console.error("making post failed", err);
+    }
   };
 
   // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
+  useEffect(() => {
+    fetchPosts();
+    fetchTags();
+  }, []);
 
   return (
     <div className="pb-20 pt-14">
@@ -45,7 +71,12 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            value={tagInput}
+            onChange={handleSearchTagInputChange}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
           {searchTags.map((tag) => {
@@ -70,8 +101,9 @@ export default function Home() {
           </div>
         ))}
       </div>
-      {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
-      {/* TODO: PostDialog 컴포넌트 구현 */}
+      <div className="mt-20">
+        {user && <PostDialog onSubmitPost={handleCreatePost} />}
+      </div>
     </div>
   );
 }
