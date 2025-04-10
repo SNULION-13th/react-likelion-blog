@@ -10,7 +10,6 @@ import { Button } from "@/shared/components";
 //HINT: State
 
 const searchTags = [];
-const storedTags = [];
 
 export default function Home() {
 
@@ -32,6 +31,11 @@ export default function Home() {
     console.log("tag fetch response", tags);
     setTags(tags)
   };
+
+  const allTags = posts.flatMap((post) => post.tags || []);
+  const uniqueTags = Array.from(
+    new Map(allTags.map((tag) => [tag.id, tag])).values()
+  );
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
@@ -65,6 +69,18 @@ export default function Home() {
         <div className="w-[90vw] max-w-md flex justify-center">
           <Input type="text" placeholder="태그를 검색하세요" />
         </div>
+
+        <div className="mt-7">
+          {uniqueTags.map((tag) => (
+            <span
+              key={tag.id}
+              className="inline-block bg-orange-400 hover:bg-orange-500 text-xs text-white rounded-lg px-2 py-1 mr-1 mb-1 cursor-pointer"
+            >
+              #{tag.content}
+            </span>
+          ))}
+        </div>
+
         <div className="flex mt-5 justify-center flex-wrap">
           {searchTags.map((tag) => {
             return <TagBadge key={tag.id} tag={tag} />;
