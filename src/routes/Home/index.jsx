@@ -1,5 +1,5 @@
 import { SmallPost } from "./components/SmallPost";
-import { Input, TagBadge, PostDialog } from "@/shared/components";
+import { Input, TagBadge,PostDialog } from "@/shared/components";
 import { getPosts, getTags, getPostById } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
@@ -90,11 +90,15 @@ export default function Home() {
         <Button 
           type="button" 
           className="mt-3 text-sm" 
-          onClick={()=>setIsPosting(ture)}>
+          onClick={()=>setIsPosting(true)}>
           작성
         </Button>
       )}
       {/* TODO: PostDialog 컴포넌트 구현 */}
+      {isPosting && (
+        <PostDialog></PostDialog>
+      )}
+
 
     </div>
   );
