@@ -17,7 +17,7 @@ export default function Home() {
   const [tags, setTags]= useState([]);
   const {user} = useContext(UserContext);
   const [isPosting, setIsPosting]=useState(false);
-
+  const [tagSearch, setTagSearch] = useState(""); 
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
@@ -32,13 +32,21 @@ export default function Home() {
     setTags(tags)
   };
 
+  //태그 검색용
   const allTags = posts.flatMap((post) => post.tags || []);
+  
   const uniqueTags = Array.from(
     new Map(allTags.map((tag) => [tag.id, tag])).values()
   );
+  
+  const filteredTags = uniqueTags.filter((tag) =>
+    tag.content.toLowerCase().includes(tagSearch.toLowerCase())
+  );
+  
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
+    setTagSearch(value); 
     console.log("search tag input change", value);
   };
 
@@ -67,11 +75,11 @@ export default function Home() {
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input type="text" value={tagSearch} onChange={handleSearchTagInputChange} placeholder="태그를 검색하세요" />
         </div>
 
         <div className="mt-7">
-          {uniqueTags.map((tag) => (
+          {filteredTags.map((tag) => (
             <span
               key={tag.id}
               className="inline-block bg-orange-400 hover:bg-orange-500 text-xs text-white rounded-lg px-2 py-1 mr-1 mb-1 cursor-pointer"
