@@ -13,6 +13,8 @@ import { instance } from "@/shared/api";
  * }>}
  */
 export const createPost = async (post) => {
+  console.log("📦 보내는 데이터:", post); // 여기에 찍어보자
+
   try {
     const response = await instance.post("/posts", post);
     return response.data;

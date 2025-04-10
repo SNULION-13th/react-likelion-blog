@@ -2,11 +2,19 @@ import lion from "@/assets/lion.jpeg";
 import { useMediaQuery } from "@/shared/hooks";
 import { Button } from "@/shared/components";
 import { Link } from "react-router-dom";
+import { SignInContext } from "@/App"; // SignInContext를 가져온다.
+import { useContext } from "react";
 
 //TODO: 로그인 했을 시에는 로그아웃 버튼만 나타나게 하기
 export const Header = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
   // 로그인 여부 상태, 우선 false로 초기화
+
+  const { sign, setSign } = useContext(SignInContext); // 전역 변수 가져오기
+
+  const handleLogout = () => {
+    setSign("LogOut");
+  };
 
   return (
     <div
@@ -21,10 +29,21 @@ export const Header = () => {
       {isMobile ? null : (
         <div className="flex flex-row gap-5">
           <Link to="/signin">
-            <Button>sign in</Button>
+            {sign === "LogOut" && <Button>sign in</Button>}
           </Link>
           <Link to="/signup">
-            <Button>sign up</Button>
+            {sign === "LogOut" && <Button>sign up</Button>}
+          </Link>
+          <Link to="/">
+            {sign === "SignIn" && (
+              <Button
+                onClick={
+                  handleLogout /*누르면 setSign, 콜백형태로 전달해야함.*/
+                }
+              >
+                LOGOUT
+              </Button>
+            )}
           </Link>
         </div>
       )}
