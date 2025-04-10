@@ -53,6 +53,7 @@ export default function Home() {
   const handleCreatePost = async (post, author) => {
     const createResponse = await createPost({
       ...post,
+      tags: post.tags,
       author: user.username,
     });
     const newPost = await getPostById(createResponse.postId);

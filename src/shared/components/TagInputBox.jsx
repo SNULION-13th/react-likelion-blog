@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Input, Button } from "@/shared/components";
 import { TagBadge } from "@/shared/components"; // 태그 UI가 있다면
 import { X } from "lucide-react";
-export function TagInputBox() {
-  const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState([]);
+export function TagInputBox({ tags, setTags, tagInput, setTagInput }) {
 
   const handleAddTag = () => {
     const trimmed = tagInput.trim();

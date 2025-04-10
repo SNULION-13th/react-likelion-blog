@@ -40,7 +40,12 @@ export const PostDialog = ({ onSubmit, onClose }) => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <TagInputBox />
+        <TagInputBox 
+          tags={tags}
+          setTags={setTags}
+          tagInput={tagInput}
+          setTagInput={setTagInput}
+        />
       </CardContent>
       <CardFooter className="flex justify-center gap-[4px]">
         <Button type="submit" onClick={handleSubmit}>등록</Button>
