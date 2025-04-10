@@ -2,6 +2,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input, Label, Button } from "@/shared/components";
 import logo from "@/assets/logo.png";
 import { SignUpDialog } from "./components";
+import { useState } from "react";
+
 export const SignUpInputLabelContainer = ({ label, input }) => {
   return (
     <div className="flex flex-col gap-2">
@@ -12,8 +14,42 @@ export const SignUpInputLabelContainer = ({ label, input }) => {
 };
 
 export default function Signup() {
-  const handleSubmit = (e) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [university, setUniversity] = useState("");
+  const [major, setMajor] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username || !password || !passwordCheck || !name || !email) {
+      alert("필수 항목을 모두 입력해주세요.");
+      return;
+    }
+
+    if (password !== passwordCheck) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      const result = await signUp({
+        username,
+        password,
+        name,
+        email,
+        university,
+        major,
+      });
+
+      console.log("회원가입 성공:", result);
+      alert("회원가입이 완료되었습니다!");
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입에 실패했습니다.");
+    }
   };
 
   return (
@@ -33,6 +69,8 @@ export default function Signup() {
                   placeholder="아이디를 입력하세요"
                   id="username"
                   name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -44,6 +82,8 @@ export default function Signup() {
                   placeholder="비밀번호를 입력하세요"
                   id="password"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -55,6 +95,8 @@ export default function Signup() {
                   placeholder="비밀번호를 입력하세요"
                   id="passwordCheck"
                   name="passwordCheck"
+                  value={passwordCheck}
+                  onChange={(e) => setPasswordCheck(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -66,6 +108,8 @@ export default function Signup() {
                   placeholder="이름을 입력하세요"
                   id="name"
                   name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -78,6 +122,8 @@ export default function Signup() {
                   placeholder="이메일을 입력하세요"
                   id="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -89,6 +135,8 @@ export default function Signup() {
                   placeholder="학교를 입력하세요"
                   id="university"
                   name="university"
+                  value={university}
+                  onChange={(e) => setUniversity(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>
@@ -100,6 +148,8 @@ export default function Signup() {
                   placeholder="전공 입력하세요"
                   id="major"
                   name="major"
+                  value={major}
+                  onChange={(e) => setMajor(e.target.value)}
                 />
               }
             ></SignUpInputLabelContainer>

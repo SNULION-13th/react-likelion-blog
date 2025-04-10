@@ -1,77 +1,108 @@
 import { SmallPost } from "./components/SmallPost";
 import { Input, TagBadge, PostDialog } from "@/shared/components";
-import { getPosts, getTags, getPostById } from "@/shared/api";
+import { getPosts, getTags } from "@/shared/api";
 import { createPost } from "./api";
 import { useNavigate } from "react-router";
-
-//HINT: State
-const posts = [];
-const searchTags = [];
-const storedTags = [];
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "@/shared/context/userContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  const [posts, setPosts] = useState([]);
+  const [storedTags, setStoredTags] = useState([]);
+  const [searchTags, setSearchTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
 
   const fetchPosts = async () => {
-    const posts = await getPosts();
-    console.log("post fetch response", posts);
+    const postsData = await getPosts();
+    console.log("post fetch response", postsData);
+    setPosts(postsData);
   };
 
   const fetchTags = async () => {
-    const tags = await getTags();
-    console.log("tag fetch response", tags);
+    const tagsData = await getTags();
+    setStoredTags(tagsData);
+    setSearchTags(tagsData);
+    console.log("tag fetch response", tagsData);
   };
+
+  useEffect(() => {
+    fetchPosts();
+    fetchTags();
+  }, []);
 
   const handleSearchTagInputChange = (e) => {
     const { value } = e.target;
+    setTagInput(value);
+    if (!value) {
+      setSearchTags(storedTags);
+    } else {
+      setSearchTags(
+        storedTags.filter((tag) =>
+          tag.content.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    }
     console.log("search tag input change", value);
   };
 
-  const handleCreatePost = async (post, author) => {
-    const createResponse = await createPost({
-      ...post,
-      author,
-    });
-    const newPost = await getPostById(createResponse.postId);
-    console.log("new post", newPost);
+  const handleCreatePost = async (post, userId) => {
+    try {
+      console.log(post.content);
+      const response = await createPost({
+        title: post.title,
+        author: userId,
+        content: post.content,
+        tags: post.tags,
+      });
+
+      const newPost = await getPostById(response.postId);
+      setPosts((prev) => [...prev, newPost]);
+
+      fetchTags();
+    } catch (err) {
+      console.error("게시글 생성 실패", err);
+    }
   };
 
-  // TODO: 페이지 진입 시 최초 한 번만 태그와 게시글 정보들 불러오기
-
   return (
-    <div className="pb-20 pt-14">
+    <div className="pb-40 pt-14">
       <div className="flex flex-col justify-center items-center mb-5">
         <div className="w-full mb-16 flex justify-center">
           <h1 className="uppercase text-6xl text-black">my blog</h1>
         </div>
         <div className="w-[90vw] max-w-md flex justify-center">
-          <Input type="text" placeholder="태그를 검색하세요" />
+          <Input
+            type="text"
+            placeholder="태그를 검색하세요"
+            onChange={handleSearchTagInputChange}
+            value={tagInput}
+          />
         </div>
         <div className="flex mt-5 justify-center flex-wrap">
-          {searchTags.map((tag) => {
-            return <TagBadge key={tag.id} tag={tag} />;
-          })}
+          {searchTags.map((tag) => (
+            <TagBadge key={tag.id} tag={tag} />
+          ))}
         </div>
       </div>
 
-      <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
+      <div className="mx-auto grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 px-10 pb-17 mt-10 lg:w-[950px] md:w-[640px] w-[320px]">
         {posts.map((post) => (
           <div
             key={post.id}
             className="w-full flex justify-center items-center"
+            onClick={() => {
+              console.log(post.id);
+              navigate(`/post/${post.id}`);
+            }}
           >
-            <SmallPost
-              post={post}
-              onClick={() => {
-                console.log(post.id);
-                navigate(`/post/${post.id}`);
-              }}
-            />
+            <SmallPost post={post} />
           </div>
         ))}
       </div>
-      {/* TODO: 로그인한 유저 정보가 있을 때에만 게시글 작성 버튼이 나타난다. */}
-      {/* TODO: PostDialog 컴포넌트 구현 */}
+
+      {user && <PostDialog onSubmit={handleCreatePost} author={user.name} />}
     </div>
   );
 }

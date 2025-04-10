@@ -2,7 +2,7 @@
 export const posts = [
   {
     id: 1,
-    title: "#1 Post",
+    title: "#1 post",
     content: "첫번째 게시물입니다",
     author: 1,
     tags: [1, 2, 3],
